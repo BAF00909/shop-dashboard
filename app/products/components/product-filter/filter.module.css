@@ -1,0 +1,13 @@
+.filterContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.fields {
+	display: flex;
+	flex-direction: row;
+}
+
+.filterTools {
+	display: flex;
+}

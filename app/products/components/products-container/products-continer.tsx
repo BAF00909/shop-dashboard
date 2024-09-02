@@ -7,6 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 import { IProduct } from "./product.interface";
 import { DataTable } from "@/app/components/data-table/data-table";
 import { columns } from "./columns";
+import { urlBuilder } from "@/app/lib/helper/queryUrlBuiler";
+import Filter from "../product-filter/filter";
 
 export const ProductsContainer = () => {
 	const [products, setProducts] = useState<IProduct[]>([])
@@ -14,20 +16,23 @@ export const ProductsContainer = () => {
 		skip: 0,
 		take: 10,
 		page: 0,
-		pageCount: 0
+		pageCount: 0,
+		filterQuery: []
 	});
+	const [filterState, setFilterState] = useState<Record<string, any>>({})
 	const productColumns = useMemo(() => columns, []);
 
-	useEffect(() => {
-		const getProductsList = async () => {
-			const response = await api.get(`${HOST}${Products}/all?skip=${productsState.skip}&take=${productsState.take}`);
-			if (response) {
-				setProducts(response.result.list)
-				setProductsState(state => ({...state, pageCount: response.result.totalPage}))
-			}
+	const getProductsList = async (skip: number, take: number) => {
+		const response = await api.get(`${HOST}${Products}/all${urlBuilder(skip, take, productsState.filterQuery)}`);
+		if (response) {
+			setProducts(response.result.list)
+			setProductsState(state => ({...state, pageCount: response.result.totalPage}))
 		}
-		getProductsList();
-	}, [productsState.skip, productsState.take])
+	}
+
+	useEffect(() => {
+		getProductsList(productsState.skip, productsState.take);
+	}, [productsState.skip, productsState.take, productsState.filterQuery])
 
 	const nextPrevPage = (value: number) => {
 		setProductsState(state => ({
@@ -39,6 +44,7 @@ export const ProductsContainer = () => {
 
 	return (
 		<div>
+			<Filter filterState={filterState} setFilterState={setFilterState} setProductsState={setProductsState} />
 			<DataTable
 				data={products}
 				columns={productColumns}
