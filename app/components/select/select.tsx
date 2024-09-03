@@ -19,7 +19,7 @@ export const Select = ({id, initValue, lable, name, handler, list}: IProps) => {
 					}}
 			>
 				{
-					list?.map((option) => <option key={option.Id} value={option.Id}>{option.GroupName}</option>)
+					list?.map((option) => <option key={option.value} value={option.value}>{option.text}</option>)
 				}
 			</select>
 		</div>

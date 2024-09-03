@@ -1,6 +1,5 @@
 'use client';
-import { HOST, ProductGrops } from "@/app/api/url";
-import { ComponentType, ReactNode, useEffect, useState } from "react";
+import { ComponentType, useEffect, useState } from "react";
 
 export const withData = <T extends object>(Component: ComponentType<T>, url: string) => {
 	const HOC =  (props: any) => {
