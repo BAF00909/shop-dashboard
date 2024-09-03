@@ -1,6 +1,7 @@
 .filterContainer {
 	display: flex;
 	flex-direction: column;
+	margin: 15px 0;
 }
 
 .fields {
@@ -10,4 +11,10 @@
 
 .filterTools {
 	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.fields > div {
+	width: 171px;
 }

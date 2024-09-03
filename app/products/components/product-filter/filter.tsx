@@ -5,8 +5,10 @@ import { Dispatch, SetStateAction } from "react";
 import styles from './filter.module.css';
 import { InputTextField } from "@/app/components/input-text-field/input-text-field";
 import { withData } from "@/app/lib/hoc/withData";
-import { HOST, ProductGrops, Supplies as SuppliesUrl } from "@/app/api/url";
-import { Select } from "@/app/components/select/select";
+import { HOST, ProductGrops, Providers, Supplies as SuppliesUrl } from "@/app/api/url";
+import { ProductGroups } from "./filter-product-group";
+import { Supplies } from "./filter-supplies";
+import { Provider } from "./filter-providers";
 
 interface IProps {
 	filterState: Record<string, any>,
@@ -15,37 +17,9 @@ interface IProps {
 	list: Array<Record<string, any>>
 }
 
-const ProductGroups = ({filterState, setFilterState, list}: IProps) => {
-	return (
-		<Select
-			id="ProductGroupId"
-			name="ProductGroupId"
-			lable="Категория"
-			list={list?.map((item) => ({value: item.Id, text: item.GroupName}))}
-			initValue={filterState?.ProductGroupId || ''}
-			handler={(data: Record<string, any>) => {
-				setFilterState(oldValue => ({...oldValue, ...data}));
-			}}
-		/>
-	)
-}
 const ProductGroupsList = withData(ProductGroups, `${HOST}${ProductGrops}/all`);
-
-const Supplies = ({filterState, setFilterState, list}: IProps) => {
-	return (
-		<Select
-			id="SupplyId"
-			name="SupplyId"
-			lable="Поставка"
-			list={list?.map((item) => ({value: item.Id, text: `${item.Number} - ${item.Date}`}))}
-			initValue={filterState?.SupplyId || ''}
-			handler={(data: Record<string, any>) => {
-				setFilterState(oldValue => ({...oldValue, ...data}));
-			}}
-		/>
-	)
-}
 const SuppliesList = withData(Supplies, `${HOST}${SuppliesUrl}/all`);
+const ProvidersList = withData(Provider, `${HOST}${Providers}/all`);
 
 const Filter = ({filterState, setFilterState, setProductsState, list}: IProps) => {
 	return (
@@ -53,19 +27,19 @@ const Filter = ({filterState, setFilterState, setProductsState, list}: IProps) =
 
 				<div className={styles.fields}>
 					<InputTextField
-						id="ProductName"
-						name="ProductName"
-						lable="Наименование"
-						initValue={filterState?.ProductName || ''}
+						id="Art"
+						name="Art"
+						lable="Артикул"
+						initValue={filterState?.Art || ''}
 						handler={(data: Record<string, any>) => {
 							setFilterState(oldValue => ({...oldValue, ...data}));
 						}}
 					/>
 					<InputTextField
-						id="Art"
-						name="Art"
-						lable="Артикул"
-						initValue={filterState?.Art || ''}
+						id="ProductName"
+						name="ProductName"
+						lable="Наименование"
+						initValue={filterState?.ProductName || ''}
 						handler={(data: Record<string, any>) => {
 							setFilterState(oldValue => ({...oldValue, ...data}));
 						}}
@@ -84,7 +58,22 @@ const Filter = ({filterState, setFilterState, setProductsState, list}: IProps) =
 						setFilterState={setFilterState}
 						setProductsState={setProductsState}
 					/>
+					<InputTextField
+						type={'date'}
+						id="DateIn"
+						name="DateIn"
+						lable="Дата прихода"
+						initValue={filterState?.DateIn || ''}
+						handler={(data: Record<string, any>) => {
+							setFilterState(oldValue => ({...oldValue, ...data}));
+						}}
+					/>
 					<SuppliesList
+						filterState={filterState}
+						setFilterState={setFilterState}
+						setProductsState={setProductsState}
+					/>
+					<ProvidersList
 						filterState={filterState}
 						setFilterState={setFilterState}
 						setProductsState={setProductsState}

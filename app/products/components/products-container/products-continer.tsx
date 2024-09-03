@@ -4,7 +4,7 @@ import api from "@/app/api/api";
 import { HOST, Products } from "@/app/api/url";
 import { IPagination } from "@/app/interfaces/common/pagination.interface";
 import { useEffect, useMemo, useState } from "react";
-import { IProduct } from "./product.interface";
+import { IProduct } from "../../../interfaces/products/product.interface";
 import { DataTable } from "@/app/components/data-table/data-table";
 import { columns } from "./columns";
 import { urlBuilder } from "@/app/lib/helper/queryUrlBuiler";

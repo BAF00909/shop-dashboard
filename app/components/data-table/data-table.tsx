@@ -15,8 +15,8 @@ export const DataTable = ({data, columns, pagination, pageCount, onNextPrevPageH
 		data,
 		columns,
 		defaultColumn: {
-			size: 150,
-			minSize: 100,
+			size: 175,
+			minSize: 175,
 			maxSize: 250
 		},
 		pageCount,
